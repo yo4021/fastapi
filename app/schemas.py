@@ -1,15 +1,36 @@
-# app/schemas.py
 from pydantic import BaseModel
+from typing import Optional
+from datetime import datetime
 
-class ItemBase(BaseModel):
-    name: str
-    description: str
+class TodoBase(BaseModel):
+    title: str
+    details: Optional[str] = None
 
-class ItemCreate(ItemBase):
+class TodoCreate(TodoBase):
     pass
 
-class Item(ItemBase):
+class TodoResponse(TodoBase):
     id: int
+    created_at: datetime
+    updated_at: datetime
+    completed: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+from pydantic import BaseModel, EmailStr
+
+class UserCreate(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
+
+    class Config:
+        from_attributes = True
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+    class Config:
+        from_attributes = True
